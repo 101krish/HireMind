@@ -1,4 +1,4 @@
-# PRISM 🌈 — AI Talent Intelligence & Candidate Screening Platform
+# HireMind 🌈 — AI Talent Intelligence & Candidate Screening Platform
 
 > A next-generation, multi-agent AI recruiting and scoring pipeline. PRISM ingests candidate profiles and job descriptions, runs deep semantic filtering, evaluates candidates across multiple technical and behavioral dimensions, runs multi-agent panel debates, and serves a high-fidelity interactive dashboard for recruiters.
 
