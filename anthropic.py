@@ -86,19 +86,19 @@ class GeminiMessages:
 
 class Anthropic:
     def __init__(self, api_key=None, **kwargs):
-        # Resolve API key
-        self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("GEMINI_API_KEY")
+        # Resolve API key (checking GEMINI_API_KEY first)
+        self.api_key = api_key or os.environ.get("GEMINI_API_KEY") or os.environ.get("ANTHROPIC_API_KEY")
         
         # Check if the key is a Gemini API key
         is_gemini = False
-        if self.api_key and (self.api_key.startswith("AIzaSy") or os.environ.get("GEMINI_API_KEY")):
-            is_gemini = True
+        if self.api_key and self.api_key != "mock_key":
+            # If GEMINI_API_KEY is configured, or if the key does not start with Anthropic's standard "sk-" prefix
+            if os.environ.get("GEMINI_API_KEY") or not self.api_key.startswith("sk-"):
+                is_gemini = True
             
         if is_gemini:
             # Use Gemini wrapper
             gemini_key = self.api_key
-            if not gemini_key and os.environ.get("GEMINI_API_KEY"):
-                gemini_key = os.environ.get("GEMINI_API_KEY")
             self.messages = GeminiMessages(gemini_key)
             self._mode = "gemini"
         else:
@@ -107,6 +107,7 @@ class Anthropic:
             self._delegate = real_anthropic.Anthropic(api_key=self.api_key, **kwargs)
             self.messages = self._delegate.messages
             self._mode = "anthropic"
+
 
 # Re-export exceptions from real anthropic for compatibility
 try:
