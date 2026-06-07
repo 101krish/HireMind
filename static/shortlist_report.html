@@ -1,0 +1,528 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#ca8100",
+                    "secondary-container": "#00a572",
+                    "surface-container": "#192029",
+                    "on-secondary-fixed-variant": "#005236",
+                    "surface-tint": "#c0c1ff",
+                    "surface-container-low": "#151c25",
+                    "on-secondary-fixed": "#002113",
+                    "inverse-surface": "#dce3f0",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "secondary": "#4edea3",
+                    "on-secondary-container": "#00311f",
+                    "inverse-on-surface": "#2a313b",
+                    "on-surface-variant": "#c7c4d7",
+                    "surface-container-lowest": "#080f17",
+                    "inverse-primary": "#494bd6",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-surface": "#dce3f0",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "surface-container-highest": "#2e353f",
+                    "background": "#0d141d",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "on-tertiary-container": "#3e2400",
+                    "tertiary": "#ffb95f",
+                    "surface-container-high": "#232a34",
+                    "primary": "#c0c1ff",
+                    "surface-dim": "#0d141d",
+                    "on-background": "#dce3f0",
+                    "outline": "#908fa0",
+                    "error": "#ffb4ab",
+                    "on-primary": "#1000a9",
+                    "surface": "#0d141d",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-secondary": "#003824",
+                    "surface-variant": "#2e353f",
+                    "on-tertiary-fixed": "#2a1700",
+                    "error-container": "#93000a",
+                    "tertiary-fixed": "#ffddb8",
+                    "on-error": "#690005",
+                    "on-primary-fixed": "#07006c",
+                    "on-primary-container": "#0d0096",
+                    "primary-container": "#8083ff",
+                    "outline-variant": "#464554",
+                    "primary-fixed": "#e1e0ff",
+                    "surface-bright": "#333a44",
+                    "on-tertiary": "#472a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "32px",
+                    "base": "4px",
+                    "container-padding": "24px",
+                    "card-padding": "20px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "metric-sm": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-sm": ["Space Grotesk"],
+                    "display-md": ["Space Grotesk"],
+                    "metric-lg": ["JetBrains Mono"],
+                    "display-lg": ["Space Grotesk"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "metric-sm": ["14px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-md": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "metric-lg": ["20px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0d141d;
+            color: #dce3f0;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.02) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .glow-green { filter: drop-shadow(0 0 4px #00a572); }
+        .glow-indigo { filter: drop-shadow(0 0 4px #6366F1); }
+        .glow-amber { filter: drop-shadow(0 0 4px #ffb95f); }
+        .glow-purple { filter: drop-shadow(0 0 4px #8083ff); }
+        .print-canvas { max-width: 1100px; margin: 0 auto; }
+        @media print {
+            .no-print { display: none; }
+            body { background: white !important; color: black !important; }
+            .print-canvas { max-width: 100% !important; margin: 0 !important; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- TopNavBar -->
+<nav class="bg-surface-container docked full-width top-0 h-[56px] border-b border-outline-variant flex justify-between items-center w-full px-container-padding max-w-full z-50 sticky top-0 no-print">
+<div class="flex items-center gap-6">
+<span class="font-display-md text-display-md font-bold text-primary flex items-center gap-2 cursor-pointer" onclick="goDashboard()">HireMind</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-on-surface-variant font-medium hover:bg-surface-container-high transition-colors px-2 py-1 rounded" id="nav-dashboard-link" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-medium hover:bg-surface-container-high transition-colors px-2 py-1 rounded" href="/configure">New Analysis</a>
+<span class="text-primary border-b-2 border-primary pb-1 font-bold">Reports</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button id="export-pdf-btn" class="bg-primary hover:bg-primary-container text-on-primary px-4 py-2 rounded-lg font-label-caps transition-all flex items-center gap-2 active:scale-95 duration-150 ease-in-out">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                Export PDF
+            </button>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full cursor-pointer" onclick="goDashboard()">home</span>
+</div>
+</div>
+</nav>
+<main class="print-canvas px-container-padding py-section-gap space-y-section-gap">
+<!-- Section 1: Header -->
+<header class="bg-[#111827] border border-outline-variant rounded-xl p-card-padding flex flex-col md:flex-row justify-between items-start md:items-center gap-gutter">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<h1 class="font-display-md text-display-md">HireMind Shortlist Report</h1>
+<span id="role-title-badge" class="bg-primary-container/20 text-primary border border-primary/30 px-3 py-1 rounded-full font-label-caps text-label-caps uppercase">RECRUITER ANALYSIS</span>
+</div>
+<p id="generation-timestamp" class="text-on-surface-variant font-body-md">Loading generation date...</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-surface-container-high border border-outline-variant p-4 rounded-lg text-center min-w-[100px]">
+<p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Candidates</p>
+<p id="total-candidates" class="font-metric-lg text-metric-lg">--</p>
+</div>
+<div class="bg-surface-container-high border border-outline-variant p-4 rounded-lg text-center min-w-[100px]">
+<p class="font-label-caps text-label-caps text-secondary mb-1 uppercase">Tier A</p>
+<p id="tier-a-count" class="font-metric-lg text-metric-lg text-secondary">--</p>
+</div>
+<div class="bg-surface-container-high border border-outline-variant p-4 rounded-lg text-center min-w-[100px]">
+<p class="font-label-caps text-label-caps text-tertiary mb-1 uppercase">Tier B</p>
+<p id="tier-b-count" class="font-metric-lg text-metric-lg text-tertiary">--</p>
+</div>
+<div class="bg-primary-container/20 border border-primary p-4 rounded-lg text-center min-w-[120px]">
+<p class="font-label-caps text-label-caps text-primary mb-1 uppercase">Top Score</p>
+<p id="top-score" class="font-metric-lg text-metric-lg text-primary">--%</p>
+</div>
+</div>
+</header>
+<!-- Section 2: Spotlight -->
+<section id="spotlight-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+    <!-- Rendered dynamically -->
+</section>
+<!-- Section 3: Comparison Table -->
+<section class="bg-[#111827] border border-outline-variant rounded-xl overflow-hidden">
+<div class="p-card-padding border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-headline-sm text-headline-sm">Shortlist Matrix</h2>
+<div class="flex gap-2 text-on-surface-variant text-label-caps uppercase">
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> Tier A</div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span> Tier B</div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-tertiary"></span> Tier C</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low font-label-caps text-label-caps text-on-surface-variant">
+<th class="px-6 py-4 font-semibold uppercase">Rank</th>
+<th class="px-6 py-4 font-semibold uppercase">Candidate</th>
+<th class="px-6 py-4 font-semibold uppercase text-center">Tier</th>
+<th class="px-6 py-4 font-semibold uppercase text-right">Final Score</th>
+<th class="px-6 py-4 font-semibold uppercase">Current Fit</th>
+<th class="px-6 py-4 font-semibold uppercase">Future Fit</th>
+<th class="px-6 py-4 font-semibold uppercase">Trajectory</th>
+<th class="px-6 py-4 font-semibold uppercase">Verdict</th>
+</tr>
+</thead>
+<tbody id="matrix-table-body" class="font-body-sm">
+    <!-- Rendered dynamically -->
+</tbody>
+</table>
+</div>
+<div id="table-footer-container" class="p-4 bg-surface-container-low text-center hidden">
+<button id="view-remaining-btn" class="text-primary font-label-caps text-label-caps hover:underline" onclick="loadAllCandidates()">View remaining candidates</button>
+</div>
+</section>
+<!-- Section 4: Mini Cards Grid -->
+<section id="mini-cards-container" class="grid grid-cols-1 lg:grid-cols-2 gap-section-gap">
+    <!-- Rendered dynamically -->
+</section>
+</main>
+<footer class="print-canvas px-container-padding py-section-gap border-t border-outline-variant mt-section-gap no-print">
+<div class="flex flex-col md:flex-row justify-between items-center text-on-surface-variant font-label-caps text-label-caps gap-gutter">
+<p class="">© 2026 HireMind AI Engine • Confidential Assessment Report</p>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+<script>
+        // Parse query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const runId = urlParams.get('run_id');
+
+        if (!runId) {
+            alert("Missing run_id query parameter. Redirecting to configure.");
+            window.location.href = "/configure";
+        }
+
+        // Set navbar dashboard link
+        document.getElementById('nav-dashboard-link').href = `/dashboard?run_id=${runId}`;
+
+        let allCandidates = [];
+        let visibleLimit = 5; // Default limit for matrix table
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchRunStatus();
+            fetchCandidates();
+        });
+
+        function goDashboard() {
+            window.location.href = `/dashboard?run_id=${runId}`;
+        }
+
+        function fetchRunStatus() {
+            fetch(`/jobs/status/${runId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.role_title) {
+                        document.getElementById('role-title-badge').innerText = data.role_title.toUpperCase();
+                    }
+                    if (data.timestamp) {
+                        const dateObj = new Date(data.timestamp);
+                        document.getElementById('generation-timestamp').innerText = `Generated on ${dateObj.toLocaleDateString()} • ${dateObj.toLocaleTimeString()} UTC`;
+                    } else {
+                        const now = new Date();
+                        document.getElementById('generation-timestamp').innerText = `Generated on ${now.toLocaleDateString()} • ${now.toLocaleTimeString()} UTC`;
+                    }
+                })
+                .catch(err => {
+                    console.error("Failed to fetch run status:", err);
+                    const now = new Date();
+                    document.getElementById('generation-timestamp').innerText = `Generated on ${now.toLocaleDateString()} • ${now.toLocaleTimeString()} UTC`;
+                });
+        }
+
+        function fetchCandidates() {
+            fetch(`/results/${runId}/candidates`)
+                .then(res => {
+                    if (!res.ok) throw new Error("Failed to load candidate results");
+                    return res.json();
+                })
+                .then(data => {
+                    allCandidates = data;
+                    populateReport();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error loading candidate results for report: " + err.message);
+                });
+        }
+
+        function populateReport() {
+            // 1. Header metrics
+            const totalCount = allCandidates.length;
+            document.getElementById('total-candidates').innerText = totalCount;
+            
+            let tierACount = 0;
+            let tierBCount = 0;
+            let topScore = 0;
+            allCandidates.forEach(c => {
+                if (c.tier === 'A') tierACount++;
+                if (c.tier === 'B') tierBCount++;
+                if (c.weighted_score > topScore) topScore = c.weighted_score;
+            });
+            
+            document.getElementById('tier-a-count').innerText = tierACount;
+            document.getElementById('tier-b-count').innerText = tierBCount;
+            document.getElementById('top-score').innerText = Math.round(topScore) + "%";
+
+            // 2. Identify Spotlight candidates
+            // Safe Pick: highest evidence confidence score
+            const safePick = [...allCandidates].sort((a, b) => (b.scores.evidence_confidence || 0) - (a.scores.evidence_confidence || 0))[0];
+            
+            // Growth Pick: highest trajectory score
+            const growthPick = [...allCandidates].sort((a, b) => (b.scores.trajectory || 0) - (a.scores.trajectory || 0))[0];
+            
+            // Dark Horse: highest hidden talent score
+            const darkHorse = [...allCandidates].sort((a, b) => (b.scores.hidden_talent || 0) - (a.scores.hidden_talent || 0))[0];
+            
+            // Fast Learner: highest behavioral score
+            const fastLearner = [...allCandidates].sort((a, b) => (b.scores.behavioral || 0) - (a.scores.behavioral || 0))[0];
+
+            renderSpotlightCards(safePick, growthPick, darkHorse, fastLearner);
+
+            // 3. Render Matrix Table & Mini Cards
+            renderMatrixTable();
+            renderMiniCards();
+        }
+
+        function renderSpotlightCards(safe, growth, dark, fast) {
+            const container = document.getElementById('spotlight-container');
+            if (!container) return;
+            container.innerHTML = "";
+
+            const picks = [
+                { label: "Safe Pick", icon: "verified_user", glow: "glow-green", color: "text-secondary", bg: "bg-secondary/10 border-secondary/20", cand: safe, desc: "Consistent high scores across all core domains. Minimal risk profile." },
+                { label: "Growth Pick", icon: "trending_up", glow: "glow-indigo", color: "text-primary", bg: "bg-primary/10 border-primary/20", cand: growth, desc: "Exemplary adaptability scores. Projected to outperform within 6 months." },
+                { label: "Dark Horse", icon: "psychology", glow: "glow-amber", color: "text-tertiary", bg: "bg-tertiary/10 border-tertiary/20", cand: dark, desc: "Non-traditional background with elite-level technical problem solving." },
+                { label: "Fast Learner", icon: "bolt", glow: "glow-purple", color: "text-primary-container", bg: "bg-primary-container/10 border-primary-container/20", cand: fast, desc: "Accelerated learning curve metrics. Exceptional technical agility." }
+            ];
+
+            picks.forEach(p => {
+                if (!p.cand) return;
+                const div = document.createElement('div');
+                div.className = `bg-[#111827] border border-outline-variant rounded-xl p-card-padding group hover:border-primary transition-all cursor-pointer`;
+                div.onclick = () => { window.location.href = `/candidate?run_id=${runId}&candidate_id=${p.cand.candidate_id}`; };
+                
+                div.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="${p.bg} ${p.color} font-label-caps text-label-caps px-2 py-1 rounded border uppercase">${p.label}</span>
+                        <span class="material-symbols-outlined ${p.color} ${p.glow}">${p.icon}</span>
+                    </div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-full border border-outline-variant bg-surface-container-highest flex items-center justify-center font-bold text-primary">
+                            ${p.cand.name.split(' ').map(n=>n[0]).join('')}
+                        </div>
+                        <div>
+                            <p class="font-body-md font-bold text-on-surface group-hover:text-primary transition-colors">${p.cand.name}</p>
+                            <p class="font-metric-sm text-metric-sm text-on-surface-variant">Score: ${Math.round(p.cand.weighted_score)}%</p>
+                        </div>
+                    </div>
+                    <p class="font-body-sm text-on-surface-variant italic">${p.desc}</p>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderMatrixTable() {
+            const tbody = document.getElementById('matrix-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = "";
+
+            // Sort candidates by score descending for matrix rank
+            const sorted = [...allCandidates].sort((a, b) => b.weighted_score - a.weighted_score);
+            const slice = sorted.slice(0, visibleLimit);
+
+            slice.forEach((c, idx) => {
+                const rank = String(idx + 1).padStart(2, '0');
+                let tierColor = "bg-outline/15 text-on-surface-variant border-outline/30";
+                let scoreColor = "text-on-surface";
+                let verdictColor = "text-on-surface-variant";
+                if (c.tier === 'A') {
+                    tierColor = "bg-secondary/15 text-secondary border border-secondary/30";
+                    scoreColor = "text-secondary";
+                    verdictColor = "text-secondary";
+                } else if (c.tier === 'B') {
+                    tierColor = "bg-primary/15 text-primary border border-primary/30";
+                    scoreColor = "text-primary";
+                    verdictColor = "text-primary";
+                } else if (c.tier === 'C') {
+                    tierColor = "bg-tertiary/15 text-tertiary border border-tertiary/30";
+                    scoreColor = "text-tertiary";
+                    verdictColor = "text-tertiary";
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-outline-variant/30 hover:bg-surface-container-high/50 transition-colors cursor-pointer";
+                tr.onclick = () => { window.location.href = `/candidate?run_id=${runId}&candidate_id=${c.candidate_id}`; };
+                
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-metric-sm">#${rank}</td>
+                    <td class="px-6 py-4 font-bold text-on-surface">${c.name}</td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="px-2 py-1 ${tierColor} rounded font-label-caps text-[10px] uppercase">Tier ${c.tier}</span>
+                    </td>
+                    <td class="px-6 py-4 text-right font-metric-sm ${scoreColor}">${Math.round(c.weighted_score)}%</td>
+                    <td class="px-6 py-4">
+                        <div class="w-full bg-surface-container-lowest h-1.5 rounded-full">
+                            <div class="${c.tier === 'A' ? 'bg-secondary' : c.tier === 'B' ? 'bg-primary' : 'bg-tertiary'} h-full rounded-full" style="width: ${c.scores.capability_fit}%"></div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="w-full bg-surface-container-lowest h-1.5 rounded-full">
+                            <div class="${c.tier === 'A' ? 'bg-secondary' : c.tier === 'B' ? 'bg-primary' : 'bg-tertiary'} h-full rounded-full" style="width: ${c.scores.trajectory}%"></div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 ${scoreColor}">
+                        <span class="material-symbols-outlined">${c.scores.trajectory >= 80 ? 'trending_up' : c.scores.trajectory >= 50 ? 'trending_flat' : 'trending_down'}</span>
+                    </td>
+                    <td class="px-6 py-4 font-label-caps text-[11px] ${verdictColor} font-bold uppercase">${c.recruiter_verdict.replace('_', ' ')}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const footer = document.getElementById('table-footer-container');
+            if (footer) {
+                if (allCandidates.length > visibleLimit) {
+                    footer.classList.remove('hidden');
+                    const remaining = allCandidates.length - visibleLimit;
+                    document.getElementById('view-remaining-btn').innerText = `View remaining candidates (${remaining})`;
+                } else {
+                    footer.classList.add('hidden');
+                }
+            }
+        }
+
+        function loadAllCandidates() {
+            visibleLimit = allCandidates.length;
+            renderMatrixTable();
+        }
+
+        function renderMiniCards() {
+            const container = document.getElementById('mini-cards-container');
+            if (!container) return;
+            container.innerHTML = "";
+
+            // Show top 4 candidates sorted by score
+            const sorted = [...allCandidates].sort((a, b) => b.weighted_score - a.weighted_score);
+            const top4 = sorted.slice(0, 4);
+
+            top4.forEach((c, idx) => {
+                const rank = idx + 1;
+                let rankBg = "bg-surface-container-highest";
+                let tierColor = "text-on-surface-variant";
+                let scoreColor = "text-on-surface";
+                let glowClass = "";
+                let barColor = "bg-primary";
+                if (c.tier === 'A') {
+                    rankBg = "bg-primary";
+                    tierColor = "text-secondary";
+                    scoreColor = "text-secondary";
+                    glowClass = "glow-green";
+                    barColor = "bg-secondary";
+                } else if (c.tier === 'B') {
+                    rankBg = "bg-primary-container";
+                    tierColor = "text-primary";
+                    scoreColor = "text-primary";
+                    glowClass = "glow-indigo";
+                    barColor = "bg-primary";
+                } else if (c.tier === 'C') {
+                    tierColor = "text-tertiary";
+                    scoreColor = "text-tertiary";
+                    glowClass = "glow-amber";
+                    barColor = "bg-tertiary";
+                }
+
+                const div = document.createElement('div');
+                div.className = "bg-[#111827] border border-outline-variant rounded-xl p-card-padding flex gap-gutter relative";
+                div.innerHTML = `
+                    <div class="absolute -top-2 -left-2 w-8 h-8 ${rankBg} rounded-lg flex items-center justify-center font-metric-sm text-on-primary">#${rank}</div>
+                    <div class="w-24 flex-shrink-0 flex flex-col items-center justify-center pt-2">
+                        <div class="w-16 h-16 rounded-lg border border-outline-variant bg-surface-container-highest flex items-center justify-center font-bold text-primary text-[20px] mb-2">
+                            ${c.name.split(' ').map(n=>n[0]).join('')}
+                        </div>
+                        <div class="font-metric-lg text-metric-lg text-center ${scoreColor}">${Math.round(c.weighted_score)}</div>
+                        <p class="font-label-caps text-[10px] text-center uppercase text-on-surface-variant">Match Score</p>
+                    </div>
+                    <div class="flex-grow space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface">${c.name}</h3>
+                                <span class="font-label-caps text-label-caps ${tierColor} uppercase font-bold">${c.recruiter_verdict.replace('_', ' ')}</span>
+                            </div>
+                            <a class="text-primary font-label-caps text-label-caps hover:bg-primary/10 px-2 py-1 rounded transition-colors" href="/candidate?run_id=${runId}&candidate_id=${c.candidate_id}">View Full Card</a>
+                        </div>
+                        <div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+                            <div class="${barColor} h-full rounded-full ${glowClass}" style="width: ${c.weighted_score}%"></div>
+                        </div>
+                        <p class="font-body-sm text-on-surface-variant italic leading-relaxed">
+                            "${c.reasoning && c.reasoning.length > 0 ? c.reasoning[0] : 'Top matched candidate with verified expertise.'}"
+                        </p>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Micro-interaction for export button
+        const exportBtn = document.getElementById('export-pdf-btn');
+        exportBtn.addEventListener('click', () => {
+            const originalText = exportBtn.innerHTML;
+            exportBtn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> Processing...';
+            exportBtn.classList.add('opacity-80');
+            
+            setTimeout(() => {
+                window.print();
+                exportBtn.innerHTML = originalText;
+                exportBtn.classList.remove('opacity-80');
+            }, 1000);
+        });
+
+        // Add subtle hover tracking for cards
+        document.querySelectorAll('section > div').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+
+
+</body></html>

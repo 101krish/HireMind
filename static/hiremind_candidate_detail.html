@@ -1,0 +1,664 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title class="">HireMind | Candidate Detail Card</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Load Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#ca8100",
+                    "secondary-container": "#00a572",
+                    "surface-container": "#192029",
+                    "on-secondary-fixed-variant": "#005236",
+                    "surface-tint": "#c0c1ff",
+                    "surface-container-low": "#151c25",
+                    "on-secondary-fixed": "#002113",
+                    "inverse-surface": "#dce3f0",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "secondary": "#4edea3",
+                    "on-secondary-container": "#00311f",
+                    "inverse-on-surface": "#2a313b",
+                    "on-surface-variant": "#c7c4d7",
+                    "surface-container-lowest": "#080f17",
+                    "inverse-primary": "#494bd6",
+                    "secondary-fixed-dim": "#4edea3",
+                    "on-surface": "#dce3f0",
+                    "on-primary-fixed-variant": "#2f2ebe",
+                    "surface-container-highest": "#2e353f",
+                    "background": "#0d141d",
+                    "primary-fixed-dim": "#c0c1ff",
+                    "on-tertiary-container": "#3e2400",
+                    "tertiary": "#ffb95f",
+                    "surface-container-high": "#232a34",
+                    "primary": "#c0c1ff",
+                    "surface-dim": "#0d141d",
+                    "on-background": "#dce3f0",
+                    "outline": "#908fa0",
+                    "error": "#ffb4ab",
+                    "on-primary": "#1000a9",
+                    "surface": "#0d141d",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed": "#6ffbbe",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-secondary": "#003824",
+                    "surface-variant": "#2e353f",
+                    "on-tertiary-fixed": "#2a1700",
+                    "error-container": "#93000a",
+                    "tertiary-fixed": "#ffddb8",
+                    "on-error": "#690005",
+                    "on-primary-fixed": "#07006c",
+                    "on-primary-container": "#0d0096",
+                    "primary-container": "#8083ff",
+                    "outline-variant": "#464554",
+                    "primary-fixed": "#e1e0ff",
+                    "surface-bright": "#333a44",
+                    "on-tertiary": "#472a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "32px",
+                    "base": "4px",
+                    "container-padding": "24px",
+                    "card-padding": "20px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "metric-sm": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-sm": ["Space Grotesk"],
+                    "display-md": ["Space Grotesk"],
+                    "metric-lg": ["JetBrains Mono"],
+                    "display-lg": ["Space Grotesk"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "metric-sm": ["14px", {"lineHeight": "18px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "display-md": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "metric-lg": ["20px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0A0F1E;
+            color: #dce3f0;
+            background-image: radial-gradient(#1f2937 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-glow-secondary { box-shadow: 0 0 12px rgba(78, 222, 163, 0.3); }
+        .custom-glow-primary { box-shadow: 0 0 12px rgba(99, 102, 241, 0.3); }
+    </style>
+</head>
+<body class="antialiased min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container border-b border-outline-variant h-[56px] flex items-center px-container-padding max-w-full justify-between">
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-2 text-on-surface-variant font-medium hover:bg-surface-container-high transition-colors px-2 py-1 rounded" onclick="goBack()">
+<span class="material-symbols-outlined">arrow_back</span>
+<span class="font-label-caps text-label-caps">Back to Dashboard</span>
+</button>
+<div class="h-6 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-3">
+<span class="font-headline-sm text-headline-sm text-primary" id="nav-candidate-name">Loading...</span>
+<span class="px-3 py-0.5 rounded-full font-label-caps text-[10px] tracking-widest border" id="nav-candidate-tier">TIER --</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant font-medium px-4 py-2 hover:bg-surface-container-high transition-colors rounded-lg flex items-center gap-2" onclick="window.print()">
+<span class="material-symbols-outlined">download</span>
+<span class="font-label-caps text-label-caps">Print Card</span>
+</button>
+<button class="bg-[#6366F1] text-white px-6 py-2.5 rounded font-label-caps text-label-caps hover:brightness-110 active:scale-95 transition-all" onclick="window.location.href='/configure'">
+                New Analysis
+            </button>
+<div class="flex items-center gap-2 ml-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-container-high rounded-full">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-container-high rounded-full">settings</span>
+</div>
+</div>
+</header>
+<main class="max-w-[900px] mx-auto pt-24 pb-12 px-6 flex flex-col gap-8">
+<!-- Section 1: Hero -->
+<section id="hero-section" class="bg-[#111827] rounded-xl border border-[#1F2937] border-l-[4px] border-l-secondary p-card-padding flex items-center justify-between">
+<div class="flex flex-col gap-2">
+<h1 class="font-display-md text-display-md text-on-surface" id="hero-name">Loading...</h1>
+<p class="font-body-md text-on-surface-variant" id="hero-role-company">Senior Staff Engineer</p>
+<div class="flex items-center gap-2 mt-2">
+<span class="bg-surface-container-highest px-3 py-1 rounded-full text-on-surface flex items-center gap-1.5 font-label-caps text-[11px]" id="hero-location">
+<span class="material-symbols-outlined text-[14px]">location_on</span> San Francisco, CA
+                    </span>
+</div>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="text-center px-4 border-r border-[#1F2937]">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">FINAL SCORE</span>
+<span class="font-metric-lg text-metric-lg text-secondary" id="final-score">--%</span>
+</div>
+<div class="text-center px-4 border-r border-[#1F2937]">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">CURRENT FIT</span>
+<span class="font-metric-lg text-metric-lg text-on-surface" id="current-fit">--</span>
+</div>
+<div class="text-center px-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-1">FUTURE FIT</span>
+<span class="font-metric-lg text-metric-lg text-on-surface" id="future-fit">--</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="relative flex items-center justify-center w-24 h-24">
+<svg class="w-full h-full -rotate-90">
+<circle cx="48" cy="48" fill="transparent" r="40" stroke="#1F2937" stroke-width="6"></circle>
+<circle class="custom-glow-secondary transition-all duration-1000" id="score-circle" cx="48" cy="48" fill="transparent" r="40" stroke="#4edea3" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" stroke-width="6"></circle>
+</svg>
+<div class="absolute flex flex-col items-center">
+<span class="font-display-md text-[24px] text-secondary" id="hero-tier-letter">-</span>
+</div>
+</div>
+<div class="text-center">
+<span class="font-label-caps text-label-caps text-secondary block font-bold" id="hero-verdict-label">---</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant opacity-70" id="confidence-label">--% confidence</span>
+</div>
+</div>
+</section>
+<!-- Section 2: Signals -->
+<section class="bg-[#111827] rounded-xl border border-[#1F2937] p-card-padding">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">query_stats</span> CORE SIGNAL ANALYSIS
+            </h2>
+<div class="grid grid-cols-2 gap-x-12 gap-y-6">
+<!-- Bar 1 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface">Capability</span>
+<span class="font-metric-sm text-metric-sm text-secondary" id="capability-text">--</span>
+</div>
+<div class="h-1.5 w-full bg-[#1F2937] rounded-full overflow-hidden">
+<div class="h-full bg-secondary custom-glow-secondary transition-all duration-1000" id="capability-bar" style="width: 0%;"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Weight: 40%</span>
+</div>
+<!-- Bar 2 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface">Impact</span>
+<span class="font-metric-sm text-metric-sm text-primary" id="impact-text">--</span>
+</div>
+<div class="h-1.5 w-full bg-[#1F2937] rounded-full overflow-hidden">
+<div class="h-full bg-primary custom-glow-primary transition-all duration-1000" id="impact-bar" style="width: 0%;"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Weight: 20%</span>
+</div>
+<!-- Bar 3 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface">Hidden Talent</span>
+<span class="font-metric-sm text-metric-sm text-secondary" id="hidden-talent-text">--</span>
+</div>
+<div class="h-1.5 w-full bg-[#1F2937] rounded-full overflow-hidden">
+<div class="h-full bg-secondary custom-glow-secondary transition-all duration-1000" id="hidden-talent-bar" style="width: 0%;"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Weight: 10%</span>
+</div>
+<!-- Bar 4 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface">Trajectory</span>
+<span class="font-metric-sm text-metric-sm text-secondary" id="trajectory-text">--</span>
+</div>
+<div class="h-1.5 w-full bg-[#1F2937] rounded-full overflow-hidden">
+<div class="h-full bg-secondary custom-glow-secondary transition-all duration-1000" id="trajectory-bar" style="width: 0%;"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Weight: 15%</span>
+</div>
+<!-- Bar 5 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface">Evidence</span>
+<span class="font-metric-sm text-metric-sm text-primary" id="evidence-text">--</span>
+</div>
+<div class="h-1.5 w-full bg-[#1F2937] rounded-full overflow-hidden">
+<div class="h-full bg-primary custom-glow-primary transition-all duration-1000" id="evidence-bar" style="width: 0%;"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Weight: 10%</span>
+</div>
+<!-- Bar 6 -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps text-on-surface">Behavioral</span>
+<span class="font-metric-sm text-metric-sm text-secondary" id="behavioral-text">--</span>
+</div>
+<div class="h-1.5 w-full bg-[#1F2937] rounded-full overflow-hidden">
+<div class="h-full bg-secondary custom-glow-secondary transition-all duration-1000" id="behavioral-bar" style="width: 0%;"></div>
+</div>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Weight: 5%</span>
+</div>
+</div>
+</section>
+<!-- Section 3: Analysis -->
+<div class="grid grid-cols-2 gap-gutter">
+<!-- Left Column -->
+<div class="flex flex-col gap-6">
+<!-- Why Hire -->
+<div class="bg-[#111827] rounded-xl border border-[#1F2937] border-l-4 border-l-secondary p-5">
+<h3 class="font-label-caps text-label-caps text-secondary mb-3">WHY HIRE</h3>
+<ul class="flex flex-col gap-2" id="why-hire-list">
+    <!-- Rendered dynamically -->
+</ul>
+</div>
+<!-- Hidden Talents -->
+<div class="bg-[#111827] rounded-xl border border-[#1F2937] border-l-4 border-l-primary p-5">
+<h3 class="font-label-caps text-label-caps text-primary mb-3">HIDDEN TALENTS</h3>
+<div class="flex flex-wrap gap-2" id="hidden-talents-container">
+    <!-- Rendered dynamically -->
+</div>
+</div>
+<!-- Debate Panel -->
+<div class="bg-surface-container-low rounded-xl border border-[#1F2937] p-5">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">DEBATE PANEL</h3>
+<div class="text-right">
+<span class="block text-[10px] text-on-surface-variant">CONSENSUS</span>
+<span class="font-metric-sm text-metric-sm text-secondary" id="debate-consensus">--%</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center bg-[#111827] p-2 rounded border border-[#1F2937]">
+<span class="text-body-sm text-on-surface-variant">Agent: Technical</span>
+<span class="text-secondary font-metric-sm" id="debate-technical">--</span>
+</div>
+<div class="flex justify-between items-center bg-[#111827] p-2 rounded border border-[#1F2937]">
+<span class="text-body-sm text-on-surface-variant">Agent: Cultural</span>
+<span class="text-primary font-metric-sm" id="debate-cultural">--</span>
+</div>
+<div class="flex justify-between items-center bg-[#111827] p-2 rounded border border-[#1F2937]">
+<span class="text-body-sm text-on-surface-variant">Agent: Growth</span>
+<span class="text-secondary font-metric-sm" id="debate-growth">--</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column -->
+<div class="flex flex-col gap-6">
+<!-- Red Flags -->
+<div class="bg-[#111827] rounded-xl border border-[#1F2937] border-l-4 border-l-error p-5">
+<h3 class="font-label-caps text-label-caps text-error mb-3">RED FLAGS</h3>
+<div class="flex flex-col gap-2" id="red-flags-container">
+    <!-- Rendered dynamically -->
+</div>
+</div>
+<!-- Devil's Advocate -->
+<div class="bg-[#111827] rounded-xl border border-[#1F2937] border-l-4 border-l-tertiary p-5">
+<h3 class="font-label-caps text-label-caps text-tertiary mb-3">DEVIL'S ADVOCATE</h3>
+<div class="bg-tertiary/5 p-4 rounded border border-tertiary/20">
+<p class="text-body-sm text-on-surface italic leading-relaxed" id="devils-advocate-summary">
+                            Loading Devil's Advocate warning...
+                        </p>
+<div class="mt-3 pt-3 border-t border-tertiary/10 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]">shield</span>
+<span class="text-[11px] text-tertiary font-bold uppercase" id="devils-advocate-mitigation">MITIGATION: ---</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 4: Interview Questions -->
+<section class="bg-[#111827] rounded-xl border border-[#1F2937] p-card-padding">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant">PREPARED INTERVIEW LOOPS</h2>
+<div class="flex bg-surface-container-lowest p-1 rounded-lg border border-[#1F2937]" id="tabs-bar">
+<button id="tab-technical" onclick="switchTab('TECHNICAL')" class="px-4 py-1.5 rounded-md font-label-caps text-[11px] bg-primary text-on-primary-container font-bold transition-all">TECHNICAL</button>
+<button id="tab-gap" onclick="switchTab('GAP_PROBING')" class="px-4 py-1.5 rounded-md font-label-caps text-[11px] text-on-surface-variant hover:text-on-surface transition-all">GAP PROBING</button>
+<button id="tab-behavioral" onclick="switchTab('BEHAVIORAL')" class="px-4 py-1.5 rounded-md font-label-caps text-[11px] text-on-surface-variant hover:text-on-surface transition-all">BEHAVIORAL</button>
+</div>
+</div>
+<div class="flex flex-col gap-4" id="questions-container">
+    <!-- Rendered dynamically -->
+</div>
+</section>
+<!-- Footer / Action Area -->
+<div class="flex justify-center gap-4 mt-4">
+<button class="border border-[#1F2937] text-on-surface-variant font-label-caps text-label-caps px-8 py-3 rounded hover:bg-surface-container-high transition-all" onclick="archiveCandidate()">
+                ARCHIVE CANDIDATE
+            </button>
+<button class="bg-secondary text-on-secondary px-10 py-3 rounded font-label-caps text-label-caps font-bold hover:brightness-110 active:scale-95 transition-all shadow-lg" onclick="moveToFinal()">
+                MOVE TO FINAL ROUND
+            </button>
+</div>
+</main>
+<script>
+        // Parse query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const runId = urlParams.get('run_id');
+        const candidateId = urlParams.get('candidate_id');
+
+        if (!runId || !candidateId) {
+            alert("Missing run_id or candidate_id query parameter. Redirecting to configure.");
+            window.location.href = "/configure";
+        }
+
+        let candidateData = null;
+
+        // On load
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchCandidateDetail();
+        });
+
+        function fetchCandidateDetail() {
+            fetch(`/results/${runId}/candidates`)
+                .then(res => {
+                    if (!res.ok) throw new Error("Failed to load candidate results");
+                    return res.json();
+                })
+                .then(data => {
+                    const candidate = data.find(c => c.candidate_id === candidateId);
+                    if (!candidate) {
+                        throw new Error("Candidate not found in this run");
+                    }
+                    candidateData = candidate;
+                    populateCandidateDetail(candidate);
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error loading candidate details: " + err.message);
+                });
+        }
+
+        function populateCandidateDetail(c) {
+            // Nav Bar
+            const navName = document.getElementById('nav-candidate-name');
+            if (navName) navName.innerText = c.name;
+            const navTier = document.getElementById('nav-candidate-tier');
+            if (navTier) {
+                navTier.innerText = "TIER " + c.tier;
+                navTier.className = "px-3 py-0.5 rounded-full font-label-caps text-[10px] tracking-widest border ";
+                if (c.tier === 'A') {
+                    navTier.className += "bg-secondary/15 text-secondary border-secondary/20";
+                } else if (c.tier === 'B') {
+                    navTier.className += "bg-primary/15 text-primary border-primary/20";
+                } else {
+                    navTier.className += "bg-tertiary/15 text-tertiary border-tertiary/20";
+                }
+            }
+
+            // Hero Section
+            const heroName = document.getElementById('hero-name');
+            if (heroName) heroName.innerText = c.name;
+            
+            const heroRoleCompany = document.getElementById('hero-role-company');
+            if (heroRoleCompany) {
+                const currentRole = c.raw_profile.profile?.current_title || "Software Engineer";
+                const currentCompany = c.raw_profile.profile?.current_company || "Tech Company";
+                heroRoleCompany.innerText = `${currentRole} · ${currentCompany}`;
+            }
+
+            const heroLocation = document.getElementById('hero-location');
+            if (heroLocation) {
+                const loc = c.raw_profile.profile?.location || "San Francisco, CA";
+                const country = c.raw_profile.profile?.country ? `, ${c.raw_profile.profile.country}` : "";
+                heroLocation.innerHTML = `<span class="material-symbols-outlined text-[14px]">location_on</span> ${loc}${country}`;
+            }
+
+            const finalScore = document.getElementById('final-score');
+            if (finalScore) finalScore.innerText = Math.round(c.weighted_score) + "%";
+
+            const currentFit = document.getElementById('current-fit');
+            if (currentFit) currentFit.innerText = Math.round(c.current_fit || c.scores.capability_fit);
+
+            const futureFit = document.getElementById('future-fit');
+            if (futureFit) futureFit.innerText = Math.round(c.future_fit || c.scores.trajectory);
+
+            const heroTierLetter = document.getElementById('hero-tier-letter');
+            if (heroTierLetter) heroTierLetter.innerText = c.tier;
+
+            const heroVerdictLabel = document.getElementById('hero-verdict-label');
+            if (heroVerdictLabel) heroVerdictLabel.innerText = c.recruiter_verdict.replace('_', ' ');
+
+            const confidenceLabel = document.getElementById('confidence-label');
+            if (confidenceLabel) confidenceLabel.innerText = Math.round(c.scores.evidence_confidence) + "% confidence";
+
+            // Set SVG Circle
+            const scoreCircle = document.getElementById('score-circle');
+            if (scoreCircle) {
+                const offset = 251.2 * (1 - c.weighted_score / 100);
+                scoreCircle.style.strokeDashoffset = offset;
+            }
+
+            // Core Signal Analysis
+            const capabilityText = document.getElementById('capability-text');
+            if (capabilityText) capabilityText.innerText = Math.round(c.scores.capability_fit);
+            const capabilityBar = document.getElementById('capability-bar');
+            if (capabilityBar) capabilityBar.style.width = c.scores.capability_fit + "%";
+
+            const impactText = document.getElementById('impact-text');
+            if (impactText) impactText.innerText = Math.round(c.scores.impact);
+            const impactBar = document.getElementById('impact-bar');
+            if (impactBar) impactBar.style.width = c.scores.impact + "%";
+
+            const hiddenTalentText = document.getElementById('hidden-talent-text');
+            if (hiddenTalentText) hiddenTalentText.innerText = Math.round(c.scores.hidden_talent);
+            const hiddenTalentBar = document.getElementById('hidden-talent-bar');
+            if (hiddenTalentBar) hiddenTalentBar.style.width = c.scores.hidden_talent + "%";
+
+            const trajectoryText = document.getElementById('trajectory-text');
+            if (trajectoryText) trajectoryText.innerText = Math.round(c.scores.trajectory);
+            const trajectoryBar = document.getElementById('trajectory-bar');
+            if (trajectoryBar) trajectoryBar.style.width = c.scores.trajectory + "%";
+
+            const evidenceText = document.getElementById('evidence-text');
+            if (evidenceText) evidenceText.innerText = Math.round(c.scores.evidence_confidence);
+            const evidenceBar = document.getElementById('evidence-bar');
+            if (evidenceBar) evidenceBar.style.width = c.scores.evidence_confidence + "%";
+
+            const behavioralText = document.getElementById('behavioral-text');
+            if (behavioralText) behavioralText.innerText = Math.round(c.scores.behavioral);
+            const behavioralBar = document.getElementById('behavioral-bar');
+            if (behavioralBar) behavioralBar.style.width = c.scores.behavioral + "%";
+
+            // Why Hire List
+            const whyHireList = document.getElementById('why-hire-list');
+            if (whyHireList) {
+                whyHireList.innerHTML = "";
+                const reasons = c.reasoning && c.reasoning.length > 0 ? c.reasoning : ["Strong technical capabilities matching role requirements."];
+                reasons.forEach(reason => {
+                    const li = document.createElement('li');
+                    li.className = "flex items-start gap-2 text-body-sm text-on-surface";
+                    li.innerHTML = `
+                        <span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+                        <span>${reason}</span>
+                    `;
+                    whyHireList.appendChild(li);
+                });
+            }
+
+            // Hidden Talents Container
+            const hiddenTalentsContainer = document.getElementById('hidden-talents-container');
+            if (hiddenTalentsContainer) {
+                hiddenTalentsContainer.innerHTML = "";
+                const talents = c.hidden_talents && c.hidden_talents.length > 0 ? c.hidden_talents : [];
+                if (talents.length === 0) {
+                    hiddenTalentsContainer.innerHTML = `<span class="text-body-sm text-on-surface-variant italic">No major hidden talents highlighted.</span>`;
+                } else {
+                    talents.forEach(talent => {
+                        const chip = document.createElement('span');
+                        chip.className = "bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold border border-primary/20";
+                        chip.innerText = talent.toUpperCase();
+                        hiddenTalentsContainer.appendChild(chip);
+                    });
+                }
+            }
+
+            // Debate Panel
+            const debateConsensus = document.getElementById('debate-consensus');
+            if (debateConsensus && c.debate_scores?.consensus) debateConsensus.innerText = Math.round(c.debate_scores.consensus) + "%";
+            const debateTechnical = document.getElementById('debate-technical');
+            if (debateTechnical && c.debate_scores?.technical_agent) debateTechnical.innerText = Math.round(c.debate_scores.technical_agent);
+            const debateCultural = document.getElementById('debate-cultural');
+            if (debateCultural && c.debate_scores?.manager_agent) debateCultural.innerText = Math.round(c.debate_scores.manager_agent);
+            const debateGrowth = document.getElementById('debate-growth');
+            if (debateGrowth && c.debate_scores?.growth_agent) debateGrowth.innerText = Math.round(c.debate_scores.growth_agent);
+
+            // Red Flags Container
+            const redFlagsContainer = document.getElementById('red-flags-container');
+            if (redFlagsContainer) {
+                redFlagsContainer.innerHTML = "";
+                const flags = c.red_flags && c.red_flags.length > 0 ? c.red_flags : [];
+                if (flags.length === 0) {
+                    redFlagsContainer.innerHTML = `
+                        <div class="bg-secondary/5 p-3 rounded border border-secondary/10 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-secondary text-[18px]">verified_user</span>
+                            <span class="text-body-sm text-secondary font-medium">No red flags detected.</span>
+                        </div>
+                    `;
+                } else {
+                    flags.forEach(flag => {
+                        const div = document.createElement('div');
+                        div.className = "bg-error/5 p-3 rounded border border-error/10";
+                        let title = "Performance Warning";
+                        let desc = flag;
+                        if (flag.includes(":")) {
+                            const parts = flag.split(":");
+                            title = parts[0].trim();
+                            desc = parts.slice(1).join(":").trim();
+                        }
+                        div.innerHTML = `
+                            <p class="text-body-sm text-error/90 font-medium">${title}</p>
+                            <p class="text-[12px] text-on-surface-variant mt-1">${desc}</p>
+                        `;
+                        redFlagsContainer.appendChild(div);
+                    });
+                }
+            }
+
+            // Devil's Advocate
+            const devilsSummary = document.getElementById('devils-advocate-summary');
+            if (devilsSummary && c.devils_advocate?.risks) {
+                devilsSummary.innerText = c.devils_advocate.risks.length > 0 ? `"${c.devils_advocate.risks[0]}"` : '"No significant risks flagged by Devil\'s Advocate."';
+            }
+            const devilsMitigation = document.getElementById('devils-advocate-mitigation');
+            if (devilsMitigation && c.devils_advocate?.mitigation) {
+                devilsMitigation.innerText = `MITIGATION: ${c.devils_advocate.mitigation}`;
+            }
+
+            // Initial load of Technical Loop Tab
+            switchTab('TECHNICAL');
+        }
+
+        function switchTab(tab) {
+            if (!candidateData || !candidateData.interview_questions) return;
+            
+            // Highlight active tab button
+            const tabs = ['TECHNICAL', 'GAP_PROBING', 'BEHAVIORAL'];
+            tabs.forEach(t => {
+                const id = 'tab-' + t.toLowerCase().replace('_', '');
+                const btn = document.getElementById(id);
+                if (btn) {
+                    if (t === tab) {
+                        btn.className = "px-4 py-1.5 rounded-md font-label-caps text-[11px] bg-primary text-on-primary-container font-bold transition-all";
+                    } else {
+                        btn.className = "px-4 py-1.5 rounded-md font-label-caps text-[11px] text-on-surface-variant hover:text-on-surface transition-all";
+                    }
+                }
+            });
+
+            const questionsContainer = document.getElementById('questions-container');
+            if (!questionsContainer) return;
+            
+            questionsContainer.innerHTML = "";
+            
+            let key = "technical";
+            if (tab === "GAP_PROBING") key = "gap_probing";
+            if (tab === "BEHAVIORAL") key = "behavioral";
+            
+            const list = candidateData.interview_questions[key] || [];
+            
+            if (list.length === 0) {
+                questionsContainer.innerHTML = `<p class="text-body-sm text-on-surface-variant italic text-center py-6">No specific questions generated for this segment.</p>`;
+                return;
+            }
+            
+            list.forEach((q, index) => {
+                let level = index === 0 ? "Hard" : index === 1 ? "Moderate" : "Easy";
+                let time = index === 0 ? "15 mins" : index === 1 ? "10 mins" : "5 mins";
+                
+                const card = document.createElement('div');
+                card.className = "bg-surface-container-low border border-primary/20 rounded-lg p-4 relative group";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] font-bold text-primary tracking-widest uppercase">Target: ${tab.replace('_', ' ')} Question ${index + 1}</span>
+                        <button class="text-on-surface-variant hover:text-primary transition-colors" onclick="copyToClipboard(\`${q.replace(/`/g, '\\`').replace(/"/g, '&quot;')}\`, this)">
+                            <span class="material-symbols-outlined text-[18px]">content_copy</span>
+                        </button>
+                    </div>
+                    <p class="text-body-md text-on-surface leading-snug">"${q}"</p>
+                    <div class="mt-3 flex items-center gap-4">
+                        <span class="text-[11px] text-on-surface-variant flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">timer</span> ${time}
+                        </span>
+                        <span class="text-[11px] text-on-surface-variant flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">trending_up</span> ${level}
+                        </span>
+                    </div>
+                `;
+                questionsContainer.appendChild(card);
+            });
+        }
+
+        function copyToClipboard(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const icon = btn.querySelector('.material-symbols-outlined');
+                if (icon) {
+                    icon.innerText = "check";
+                    setTimeout(() => {
+                        icon.innerText = "content_copy";
+                    }, 2000);
+                }
+            }).catch(err => {
+                console.error("Failed to copy text:", err);
+            });
+        }
+
+        function goBack() {
+            if (runId) {
+                window.location.href = `/dashboard?run_id=${runId}`;
+            } else {
+                window.location.href = "/configure";
+            }
+        }
+
+        function archiveCandidate() {
+            alert(`Candidate ${candidateData ? candidateData.name : ''} has been archived successfully (Simulation).`);
+            goBack();
+        }
+
+        function moveToFinal() {
+            alert(`Candidate ${candidateData ? candidateData.name : ''} has been moved to the Final Round successfully (Simulation).`);
+            goBack();
+        }
+    </script>
+
+
+</body></html>

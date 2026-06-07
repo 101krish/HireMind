@@ -1,0 +1,433 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PRISM | Upload &amp; Configure</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#ca8100",
+                        "secondary-container": "#00a572",
+                        "surface-container": "#192029",
+                        "on-secondary-fixed-variant": "#005236",
+                        "surface-tint": "#c0c1ff",
+                        "surface-container-low": "#151c25",
+                        "on-secondary-fixed": "#002113",
+                        "inverse-surface": "#dce3f0",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "secondary": "#4edea3",
+                        "on-secondary-container": "#00311f",
+                        "inverse-on-surface": "#2a313b",
+                        "on-surface-variant": "#c7c4d7",
+                        "surface-container-lowest": "#080f17",
+                        "inverse-primary": "#494bd6",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-surface": "#dce3f0",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "surface-container-highest": "#2e353f",
+                        "background": "#0d141d",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "on-tertiary-container": "#3e2400",
+                        "tertiary": "#ffb95f",
+                        "surface-container-high": "#232a34",
+                        "primary": "#c0c1ff",
+                        "surface-dim": "#0d141d",
+                        "on-background": "#dce3f0",
+                        "outline": "#908fa0",
+                        "error": "#ffb4ab",
+                        "on-primary": "#1000a9",
+                        "surface": "#0d141d",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "on-secondary": "#003824",
+                        "surface-variant": "#2e353f",
+                        "on-tertiary-fixed": "#2a1700",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-error": "#690005",
+                        "on-primary-fixed": "#07006c",
+                        "on-primary-container": "#0d0096",
+                        "primary-container": "#8083ff",
+                        "outline-variant": "#464554",
+                        "primary-fixed": "#e1e0ff",
+                        "surface-bright": "#333a44",
+                        "on-tertiary": "#472a00",
+                        "custom-indigo": "#6366F1",
+                        "custom-card": "#111827",
+                        "custom-border": "#1F2937",
+                        "custom-bg": "#0A0F1E"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "32px",
+                        "base": "4px",
+                        "container-padding": "24px",
+                        "card-padding": "20px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "metric-sm": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Space Grotesk"],
+                        "display-md": ["Space Grotesk"],
+                        "metric-lg": ["JetBrains Mono"],
+                        "display-lg": ["Space Grotesk"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "metric-sm": ["14px", {"lineHeight": "18px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                        "display-md": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "metric-lg": ["20px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0A0F1E;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .spinner {
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar-fill {
+            transition: width 0.4s ease-out;
+            box-shadow: 0 0 12px #6366F1;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-container-padding text-on-surface">
+<main class="w-full max-w-[680px] space-y-8 py-12">
+<!-- Header Section -->
+<header class="text-center space-y-2">
+<div class="flex items-center justify-center gap-3">
+<div class="w-12 h-12 bg-custom-indigo flex items-center justify-center rounded-xl">
+<span class="material-symbols-outlined text-white text-[32px]">hexagon</span>
+</div>
+<h1 class="font-display-md text-display-md text-primary tracking-tight">HireMind</h1>
+</div>
+<p class="font-body-md text-on-surface-variant max-w-[400px] mx-auto">Intelligent Candidate Ranking &amp; Discovery</p>
+</header>
+<!-- Main Card: Upload & Configure -->
+<section class="bg-custom-card rounded-xl border border-custom-border p-8 shadow-2xl" id="config-card">
+<div class="space-y-8">
+<!-- Section 1: Job Description -->
+<div class="space-y-4">
+<div class="flex justify-between items-end">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Job Description</label>
+<button class="flex items-center gap-1.5 text-primary font-label-caps text-label-caps hover:underline" onclick="document.getElementById('jd-file').click()">
+<span class="material-symbols-outlined text-[16px]">upload_file</span>
+<span id="jd-upload-label">or upload docx/txt</span>
+</button>
+<input type="file" id="jd-file" accept=".docx,.txt,.md" class="hidden" onchange="handleJdFileSelect(this)">
+</div>
+<textarea id="jd-text" class="w-full min-h-[160px] bg-background border border-custom-border rounded-lg p-4 font-body-md text-on-surface focus:ring-2 focus:ring-primary focus:border-transparent outline-none resize-none placeholder:text-outline" placeholder="Paste job description here..."></textarea>
+</div>
+<!-- Section 2: Candidate Pool -->
+<div class="space-y-4">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Candidate Pool</label>
+<div class="border-2 border-dashed border-custom-border rounded-xl p-10 flex flex-col items-center justify-center gap-4 bg-surface-container-lowest/50 hover:bg-surface-container-low transition-colors cursor-pointer group" onclick="document.getElementById('candidates-file').click()" id="drop-zone">
+<input type="file" id="candidates-file" accept=".json,.jsonl" class="hidden" onchange="handleCandidatesFileSelect(this)">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">cloud_upload</span>
+</div>
+<div class="text-center">
+<p class="font-body-md text-on-surface font-medium" id="candidates-upload-label">Drop candidates.json here or click to upload</p>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Accepts JSON array of candidate profiles</p>
+</div>
+</div>
+</div>
+<!-- Section 3: Configuration Options -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Role Type</label>
+<select id="role-type" class="w-full h-12 bg-background border border-custom-border rounded-lg px-3 font-body-sm text-on-surface focus:ring-1 focus:ring-primary outline-none">
+<option>Senior IC</option>
+<option>Engineering Lead</option>
+<option>Startup Engineer</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Shortlist Size</label>
+<input id="shortlist-size" class="w-full h-12 bg-background border border-custom-border rounded-lg px-3 font-metric-sm text-metric-sm text-on-surface focus:ring-1 focus:ring-primary outline-none" type="number" value="10">
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Deep Score Top N</label>
+<input id="deep-score-top-n" class="w-full h-12 bg-background border border-custom-border rounded-lg px-3 font-metric-sm text-metric-sm text-on-surface focus:ring-1 focus:ring-primary outline-none" type="number" value="30">
+</div>
+</div>
+<!-- CTA Button -->
+<button class="w-full h-[52px] bg-custom-indigo hover:bg-custom-indigo/90 text-white rounded-lg font-display-md text-body-lg font-medium flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-lg shadow-indigo-500/20" onclick="startAnalysis()">
+<span class="material-symbols-outlined">bolt</span>
+                    Run PRISM Analysis
+                </button>
+</div>
+</section>
+<!-- Processing State Card (Hidden by default) -->
+<section class="hidden bg-custom-card rounded-xl border border-custom-border p-8 shadow-2xl space-y-6" id="processing-card">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary spinner text-[32px]">sync</span>
+<div>
+<h3 class="font-display-md text-headline-sm text-on-surface">Analysis in Progress</h3>
+<p class="font-body-sm text-on-surface-variant" id="processing-step">Step 3/10 — Decomposing 47 profiles...</p>
+</div>
+</div>
+<span class="font-metric-lg text-metric-lg text-primary" id="processing-percent">32%</span>
+</div>
+<div class="w-full bg-custom-border h-2 rounded-full overflow-hidden">
+<div class="progress-bar-fill bg-custom-indigo h-full w-[32%]" id="processing-progress"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 rounded-lg bg-surface-container-lowest border border-custom-border">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Entities Parsed</p>
+<p class="font-metric-lg text-metric-lg">1,248</p>
+</div>
+<div class="p-4 rounded-lg bg-surface-container-lowest border border-custom-border">
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-1">Compute Load</p>
+<p class="font-metric-lg text-metric-lg text-secondary">Optimal</p>
+</div>
+</div>
+<div class="pt-4 border-t border-custom-border">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">info</span>
+<p class="font-body-sm text-on-surface-variant italic">
+                        "PRISM is currently cross-referencing candidate skill vectors with industry-standard benchmarks for Senior IC roles."
+                    </p>
+</div>
+</div>
+</section>
+<!-- Footer / System Status -->
+<footer class="flex items-center justify-between px-2 opacity-60">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="font-label-caps text-[10px] text-on-surface">SYSTEM READY</span>
+</div>
+<span class="text-custom-border">|</span>
+<span class="font-label-caps text-[10px] text-on-surface">VER v2.4.0</span>
+</div>
+<div class="flex gap-4">
+<a class="font-label-caps text-[10px] text-on-surface hover:text-primary transition-colors uppercase" href="#">Documentation</a>
+<a class="font-label-caps text-[10px] text-on-surface hover:text-primary transition-colors uppercase" href="#">Support</a>
+</div>
+</footer>
+</main>
+<script>
+        let jdFilePath = "";
+        let candidatesFilePath = "";
+
+        function handleJdFileSelect(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                document.getElementById('jd-upload-label').innerText = "Selected: " + file.name;
+                const formData = new FormData();
+                formData.append("file", file);
+                fetch("/upload/jd", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error("JD Upload failed");
+                    return res.json();
+                })
+                .then(data => {
+                    jdFilePath = data.file_path;
+                    console.log("Uploaded JD path:", jdFilePath);
+                })
+                .catch(err => {
+                    alert("Error uploading JD: " + err.message);
+                });
+            }
+        }
+
+        function handleCandidatesFileSelect(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                document.getElementById('candidates-upload-label').innerText = "Selected: " + file.name;
+                const formData = new FormData();
+                formData.append("file", file);
+                fetch("/upload/candidates", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error("Candidates Upload failed");
+                    return res.json();
+                })
+                .then(data => {
+                    candidatesFilePath = data.file_path;
+                    console.log("Uploaded candidates path:", candidatesFilePath);
+                })
+                .catch(err => {
+                    alert("Error uploading candidates: " + err.message);
+                });
+            }
+        }
+
+        // Drag and drop setup for candidates
+        const dropZone = document.getElementById('drop-zone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-primary', 'bg-surface-container-low');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-primary', 'bg-surface-container-low');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-primary', 'bg-surface-container-low');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                const fileInput = document.getElementById('candidates-file');
+                fileInput.files = e.dataTransfer.files;
+                handleCandidatesFileSelect(fileInput);
+            }
+        });
+
+        async function startAnalysis() {
+            const configCard = document.getElementById('config-card');
+            const processingCard = document.getElementById('processing-card');
+            const jdText = document.getElementById('jd-text').value.trim();
+
+            if (!jdFilePath && !jdText) {
+                alert("Please paste a Job Description or upload a Job Description file first.");
+                return;
+            }
+
+            // Upload pasted text if no file was selected
+            if (!jdFilePath && jdText) {
+                try {
+                    const res = await fetch("/upload/jd-text", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ text: jdText })
+                    });
+                    if (!res.ok) throw new Error("Pasted JD upload failed");
+                    const data = await res.json();
+                    jdFilePath = data.file_path;
+                } catch (err) {
+                    alert("Error uploading pasted Job Description: " + err.message);
+                    return;
+                }
+            }
+
+            const finalCandidatesPath = candidatesFilePath || "data/sample_candidates.json";
+
+            try {
+                const res = await fetch("/jobs/precompute", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        candidates_path: finalCandidatesPath,
+                        jd_path: jdFilePath
+                    })
+                });
+                if (!res.ok) {
+                    const errData = await res.json();
+                    throw new Error(errData.detail || "Precompute trigger failed");
+                }
+                const data = await res.json();
+                const runId = data.run_id;
+
+                // Animate transition to processing screen
+                configCard.classList.add('opacity-0', 'scale-95');
+                configCard.style.transition = 'all 0.4s ease-in-out';
+                
+                setTimeout(() => {
+                    configCard.classList.add('hidden');
+                    processingCard.classList.remove('hidden');
+                    processingCard.classList.add('opacity-0', 'scale-95');
+                    
+                    // Force reflow
+                    processingCard.offsetHeight;
+                    
+                    processingCard.classList.remove('opacity-0', 'scale-95');
+                    processingCard.classList.add('opacity-100', 'scale-100');
+                    processingCard.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                    
+                    // Start polling
+                    pollJobStatus(runId);
+                }, 400);
+
+            } catch (err) {
+                alert("Failed to start analysis: " + err.message);
+            }
+        }
+
+        function pollJobStatus(runId) {
+            const stepText = document.getElementById('processing-step');
+            const percentText = document.getElementById('processing-percent');
+            const progressBar = document.getElementById('processing-progress');
+
+            const interval = setInterval(async () => {
+                try {
+                    const res = await fetch(`/jobs/status/${runId}`);
+                    if (!res.ok) throw new Error("Failed to fetch job status");
+                    const statusInfo = await res.json();
+
+                    if (statusInfo.status === "completed") {
+                        clearInterval(interval);
+                        stepText.innerText = "Analysis Complete. Redirecting...";
+                        stepText.classList.add('text-secondary');
+                        percentText.innerText = "100%";
+                        progressBar.style.width = "100%";
+                        setTimeout(() => {
+                            window.location.href = `/dashboard?run_id=${runId}`;
+                        }, 1000);
+                    } else if (statusInfo.status === "failed") {
+                        clearInterval(interval);
+                        stepText.innerText = "Analysis Failed: " + (statusInfo.error || "Unknown error");
+                        stepText.classList.remove('text-on-surface-variant');
+                        stepText.classList.add('text-rose-400');
+                        percentText.innerText = "Error";
+                        progressBar.style.width = "100%";
+                        progressBar.style.backgroundColor = "#ffb4ab";
+                    } else if (statusInfo.status === "running") {
+                        const step = statusInfo.step || "Analyzing profiles...";
+                        const percent = statusInfo.percent !== undefined ? statusInfo.percent : 30;
+                        stepText.innerText = step;
+                        percentText.innerText = percent + "%";
+                        progressBar.style.width = percent + "%";
+                    }
+                } catch (err) {
+                    console.error("Polling error:", err);
+                }
+            }, 1000);
+        }
+    </script>
+</body></html>
