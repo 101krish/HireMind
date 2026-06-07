@@ -158,6 +158,11 @@ class ScoreWeight(BaseModel):
     score: float
     weight: float
 
+class ScoreResult(BaseModel):
+    """The output of an individual scoring engine module."""
+    score: float
+    rationale: List[str] = Field(default_factory=list)
+
 class ConfidenceBand(BaseModel):
     """The estimated score band with margin of error."""
     score: float
