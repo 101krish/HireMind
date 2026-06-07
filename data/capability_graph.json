@@ -1,0 +1,68 @@
+{
+  "capabilities": {
+    "backend_engineering": {
+      "description": "Building server-side systems, APIs, services",
+      "skills": [
+        "Python", "Java", "Node.js", "Go", "Rust",
+        "REST APIs", "GraphQL", "gRPC",
+        "Microservices", "Spring Boot", "FastAPI", "Django", "Express",
+        "Message Queues", "Kafka", "RabbitMQ", "SQS"
+      ]
+    },
+    "cloud_infrastructure": {
+      "description": "Cloud platforms, IaC, container orchestration",
+      "skills": [
+        "AWS", "Azure", "GCP",
+        "EC2", "Lambda", "S3", "EKS", "RDS",
+        "Terraform", "Pulumi", "CloudFormation",
+        "Kubernetes", "Docker", "Helm", "AKS", "GKE"
+      ]
+    },
+    "distributed_systems": {
+      "description": "Large-scale distributed computing",
+      "skills": [
+        "Kafka", "distributed databases", "eventual consistency",
+        "CAP theorem", "load balancing", "service mesh",
+        "Istio", "circuit breakers", "rate limiting"
+      ]
+    },
+    "databases": {
+      "description": "Data storage and retrieval systems",
+      "skills": [
+        "PostgreSQL", "MySQL", "MongoDB", "Redis",
+        "DynamoDB", "Cassandra", "Elasticsearch",
+        "database design", "query optimization", "sharding"
+      ]
+    },
+    "ml_engineering": {
+      "description": "Machine learning systems and MLOps",
+      "skills": [
+        "PyTorch", "TensorFlow", "scikit-learn",
+        "MLflow", "Kubeflow", "feature engineering",
+        "model serving", "TorchServe", "vLLM",
+        "LLM fine-tuning", "RAG", "embeddings"
+      ]
+    },
+    "frontend_engineering": {
+      "description": "Client-side web development",
+      "skills": [
+        "React", "Vue", "Angular", "TypeScript",
+        "Next.js", "CSS", "HTML", "Webpack"
+      ]
+    },
+    "data_engineering": {
+      "description": "Data pipelines and warehousing",
+      "skills": [
+        "Spark", "Airflow", "dbt", "Snowflake",
+        "BigQuery", "data lakes", "ETL", "Flink"
+      ]
+    },
+    "security_engineering": {
+      "description": "Security, auth, and compliance",
+      "skills": [
+        "OAuth", "JWT", "encryption", "OWASP",
+        "penetration testing", "IAM", "zero trust"
+      ]
+    }
+  }
+}
