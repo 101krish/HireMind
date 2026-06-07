@@ -43,13 +43,15 @@ def load_candidates(path: Path) -> list:
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
 
-def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_path: str) -> None:
+def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_path: str, status_callback=None) -> None:
     """
     Offline Mode orchestrator.
     Runs fast filter first, then performs deep LLM analysis and scoring on the top candidates.
     Saves precomputed features to results/precomputed_features.json.
     """
     print("[Precompute] Starting offline pipeline run...")
+    if status_callback:
+        status_callback("Step 1/10 — Validating JSON integrity...", 10)
     
     if settings.anthropic_api_key == "mock_key":
         print("[Precompute] ANTHROPIC_API_KEY is not configured. Running offline pipeline in SIMULATION mode...")
@@ -98,12 +100,21 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
         raw_candidates = load_candidates(candidates_p)
         print(f"[Precompute] Loaded {len(raw_candidates)} candidates for simulation.")
         
+        total_cands = len(raw_candidates)
+        if status_callback:
+            status_callback(f"Step 2/10 — Loaded {total_cands} candidates. Preparing simulation...", 20, role_title="Senior AI Engineer")
+            import time
+            
         # Build mock precomputed features for all candidates in the dataset
         precomputed_features = []
         for i, raw_cand in enumerate(raw_candidates):
             cid = raw_cand.get("candidate_id")
             profile_sec = raw_cand.get("profile", {})
             name = profile_sec.get("anonymized_name", "Unknown")
+            
+            if status_callback:
+                status_callback(f"Step 3/10 — Simulating agent analysis for {name}...", 20 + int((i / total_cands) * 60))
+                time.sleep(0.05)
             
             # Formulate simulated score based on AI/ML skills and experience
             skills = [s.get("name", "").lower() for s in raw_cand.get("skills", [])]
@@ -190,6 +201,8 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
             precomputed_features.append(record)
             
         # Run Calibration on the pool
+        if status_callback:
+            status_callback("Step 9/10 — Calibrating candidate scores...", 90)
         role_weights = {
             "capability_fit": 0.30,
             "trajectory": 0.15,
@@ -200,6 +213,8 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
         }
         precomputed_features = calibrate_candidate_pool(precomputed_features, role_weights)
         
+        if status_callback:
+            status_callback("Step 10/10 — Saving intelligence features...", 95)
         out_p = Path(output_features_path)
         out_p.parent.mkdir(parents=True, exist_ok=True)
         with open(out_p, "w", encoding="utf-8") as f:
@@ -209,6 +224,8 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
         return
     
     # 1. Load Job Description and Decompose it
+    if status_callback:
+        status_callback("Step 1/10 — Decomposing job description...", 10)
     jd_p = Path(jd_path)
     jd_text = read_job_description(jd_p)
     print(f"[Precompute] Job description loaded. Length: {len(jd_text)} characters.")
@@ -221,12 +238,16 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
     print(f"[Precompute] Job Description Decomposed: {role_object['role_title']}")
     
     # 2. Load all candidates
+    if status_callback:
+        status_callback("Step 2/10 — Loading candidate dataset...", 20, role_title=role_object.get("role_title", "Senior Engineer"))
     candidates_p = Path(candidates_path)
     raw_candidates = load_candidates(candidates_p)
     print(f"[Precompute] Loaded {len(raw_candidates)} candidates.")
     
     # 3. Perform Fast Filtering to reduce pool to top N (e.g. top 100 or 150)
     # We construct a mock structured candidate for fast filtering
+    if status_callback:
+        status_callback("Step 3/10 — Running fast vector filters...", 30)
     temp_candidates = []
     for cand in raw_candidates:
         temp_candidates.append({
@@ -256,6 +277,8 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
         cid = raw_cand.get("candidate_id")
         name = raw_cand.get("profile", {}).get("anonymized_name", "Unknown")
         print(f"\n[Precompute] Deep parsing candidate {i+1}/{len(selected_candidates)}: {name} ({cid})")
+        if status_callback:
+            status_callback(f"Step 4/10 — Deep parsing candidate {i+1}/{len(selected_candidates)}: {name}...", 30 + int((i / len(selected_candidates)) * 55))
         
         # Decompose Profile
         decomposed = decompose_profile(raw_cand)
@@ -339,10 +362,14 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
         precomputed_features.append(record)
         
     # Calibrate candidate pool
+    if status_callback:
+        status_callback("Step 9/10 — Calibrating candidate scores...", 90)
     role_weights = settings.weights.get(role_object.get("seniority_band", "senior_ic"), settings.weights.get("senior_ic"))
     precomputed_features = calibrate_candidate_pool(precomputed_features, role_weights)
     
     # 5. Save precomputed features
+    if status_callback:
+        status_callback("Step 10/10 — Saving intelligence features...", 95)
     out_p = Path(output_features_path)
     out_p.parent.mkdir(parents=True, exist_ok=True)
     with open(out_p, "w", encoding="utf-8") as f:
