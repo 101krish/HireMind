@@ -13,6 +13,11 @@ from engines.scoring.confidence import score_candidate as score_confidence
 from engines.scoring.hidden_talent import score_candidate as score_hidden_talent
 from engines.scoring.behavioral import score_candidate as score_behavioral
 
+from agents.twin_matcher import score_twin_match
+from agents.debate_panel import run_debate
+from agents.devils_advocate import analyze_risks
+from agents.calibration_agent import calibrate_candidate_pool
+
 def read_job_description(path: Path) -> str:
     """Reads the job description text from docx, txt, or md file formats."""
     if path.suffix == ".docx":
@@ -130,30 +135,71 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
                 "behavioral": 80.0
             }
             
-            record = {
-                "candidate_id": cid,
+            # Build mock mapped profile for agent simulation
+            mock_mapped = {
                 "name": name,
-                "scores": scores,
+                "candidate_twin": {
+                    "archetype": "Systems Builder" if is_python else "Product Specialist",
+                    "learning_speed": "high" if years_exp < 7 else "medium",
+                    "execution_style": "high_ownership" if years_exp > 3 else "structured_delivery",
+                    "environment_fit": "startup_to_scaleup" if years_exp > 3 else "enterprise",
+                    "leadership": "emerging" if years_exp > 5 else "none",
+                    "ceiling": "staff_engineer" if years_exp > 5 else "senior_engineer"
+                },
                 "capability_map": {
                     "backend_engineering": {"level": "high" if is_python else "medium", "evidence_tier": 2, "evidence": "Production systems dev", "confidence": 0.85},
                     "ml_engineering": {"level": "high" if is_ml else "none", "evidence_tier": 2, "evidence": "NLP/Embeddings work", "confidence": 0.80}
                 },
                 "hidden_capabilities": [],
-                "candidate_twin": {
-                    "archetype": "Systems Builder" if is_python else "Product Specialist",
-                    "learning_speed": "high" if years_exp < 7 else "medium",
-                    "ceiling": "staff_engineer"
-                },
-                "redrob_signals": raw_cand.get("redrob_signals", {}),
-                "reasoning": [
-                    f"Candidate has {years_exp} years experience with strong backend capabilities.",
-                    f"Skills match: Python={is_python}, ML/NLP={is_ml}.",
-                    "Direct relevance to vector search and index operations."
+                "timeline": [
+                    {"year_start": 2020, "year_end": None, "company": "TechCorp", "promoted": True}
                 ],
+                "original_profile": raw_cand
+            }
+            
+            # Run agents in simulation
+            twin_res = score_twin_match(role_object.get("role_persona", {}), mock_mapped["candidate_twin"])
+            debate_res = run_debate(role_object, mock_mapped)
+            da_res = analyze_risks(role_object, mock_mapped)
+            
+            reasoning_bullets = [
+                f"Candidate has {years_exp} years experience with strong backend capabilities.",
+                f"Skills match: Python={is_python}, ML/NLP={is_ml}.",
+                "Direct relevance to vector search and index operations."
+            ]
+            reasoning_bullets.extend(twin_res.get("rationale", []))
+            reasoning_bullets.extend(debate_res.get("rationale", []))
+            
+            record = {
+                "candidate_id": cid,
+                "name": name,
+                "scores": scores,
+                "capability_map": mock_mapped["capability_map"],
+                "hidden_capabilities": [],
+                "candidate_twin": mock_mapped["candidate_twin"],
+                "redrob_signals": raw_cand.get("redrob_signals", {}),
+                "twin_match_score": twin_res.get("score", 50.0),
+                "debate_scores": debate_res.get("debate_scores", {}),
+                "devils_advocate": da_res.get("devils_advocate", {}),
+                "interview_questions": da_res.get("interview_questions", {}),
+                "reasoning": reasoning_bullets[:4],
+                "red_flags": da_res.get("devils_advocate", {}).get("risks", []),
+                "hidden_talents": [],
                 "raw_profile": raw_cand
             }
             precomputed_features.append(record)
             
+        # Run Calibration on the pool
+        role_weights = {
+            "capability_fit": 0.30,
+            "trajectory": 0.15,
+            "impact": 0.25,
+            "evidence_confidence": 0.15,
+            "hidden_talent": 0.05,
+            "behavioral": 0.10
+        }
+        precomputed_features = calibrate_candidate_pool(precomputed_features, role_weights)
+        
         out_p = Path(output_features_path)
         out_p.parent.mkdir(parents=True, exist_ok=True)
         with open(out_p, "w", encoding="utf-8") as f:
@@ -254,6 +300,24 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
         beh_res = score_behavioral(role_object, mapped)
         scores["behavioral"] = beh_res.get("score", 50.0)
         
+        # Prepare candidate data for agent analysis
+        candidate_data = {
+            "name": name,
+            "candidate_twin": mapped.get("candidate_twin", {}),
+            "timeline": decomposed.get("timeline", []),
+            "capability_map": mapped.get("capability_map", {}),
+            "original_profile": raw_cand
+        }
+        
+        # Run agent evaluations
+        twin_res = score_twin_match(role_object.get("role_persona", {}), mapped.get("candidate_twin", {}))
+        debate_res = run_debate(role_object, candidate_data)
+        da_res = analyze_risks(role_object, candidate_data)
+        
+        # Extend reasoning bullets with agent findings
+        reasoning_bullets.extend(twin_res.get("rationale", []))
+        reasoning_bullets.extend(debate_res.get("rationale", []))
+        
         # Compile precomputed record
         record = {
             "candidate_id": cid,
@@ -263,11 +327,21 @@ def run_offline_pipeline(candidates_path: str, jd_path: str, output_features_pat
             "hidden_capabilities": mapped.get("hidden_capabilities", []),
             "candidate_twin": mapped.get("candidate_twin", {}),
             "redrob_signals": raw_cand.get("redrob_signals", {}),
+            "twin_match_score": twin_res.get("score", 50.0),
+            "debate_scores": debate_res.get("debate_scores", {}),
+            "devils_advocate": da_res.get("devils_advocate", {}),
+            "interview_questions": da_res.get("interview_questions", {}),
             "reasoning": reasoning_bullets[:4], # Keep top 4 reasoning statements
+            "red_flags": da_res.get("devils_advocate", {}).get("risks", []),
+            "hidden_talents": [hc.get("capability") for hc in mapped.get("hidden_capabilities", [])],
             "raw_profile": raw_cand
         }
         precomputed_features.append(record)
         
+    # Calibrate candidate pool
+    role_weights = settings.weights.get(role_object.get("seniority_band", "senior_ic"), settings.weights.get("senior_ic"))
+    precomputed_features = calibrate_candidate_pool(precomputed_features, role_weights)
+    
     # 5. Save precomputed features
     out_p = Path(output_features_path)
     out_p.parent.mkdir(parents=True, exist_ok=True)
