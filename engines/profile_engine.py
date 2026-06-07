@@ -88,9 +88,14 @@ def decompose_profile(profile: dict) -> dict:
     """
     Decomposes a raw candidate profile dictionary into a structured StructuredCandidate dictionary.
     """
-    candidate_name = profile.get("name", "Unknown Candidate")
-    candidate_id = profile.get("id", "unknown_id")
-    print(f"[Profile Engine] Parsing: {candidate_name}")
+    candidate_id = profile.get("candidate_id") or profile.get("id") or "unknown_id"
+    profile_info = profile.get("profile", {})
+    if isinstance(profile_info, dict):
+        candidate_name = profile_info.get("anonymized_name") or profile.get("name") or "Unknown Candidate"
+    else:
+        candidate_name = profile.get("name") or "Unknown Candidate"
+        
+    print(f"[Profile Engine] Parsing: {candidate_name} ({candidate_id})")
     
     prompt = PROFILE_DECOMPOSITION_PROMPT.format(profile_json=json.dumps(profile, indent=2))
     

@@ -64,5 +64,38 @@
         "penetration testing", "IAM", "zero trust"
       ]
     }
+  },
+  "jd_specific_weights": {
+    "embeddings_retrieval": {
+      "weight": "critical",
+      "skills": [
+        "sentence-transformers", "FAISS", "Pinecone", "Weaviate",
+        "Qdrant", "Milvus", "OpenSearch", "Elasticsearch",
+        "vector databases", "hybrid search", "embedding drift",
+        "BGE", "E5", "OpenAI embeddings"
+      ]
+    },
+    "ranking_evaluation": {
+      "weight": "critical",
+      "skills": [
+        "NDCG", "MRR", "MAP", "learning-to-rank",
+        "A/B testing", "offline evaluation", "XGBoost ranking",
+        "neural ranking"
+      ]
+    },
+    "production_ml": {
+      "weight": "high",
+      "skills": [
+        "MLflow", "model serving", "inference optimization",
+        "RAG", "LLM fine-tuning", "LoRA", "QLoRA"
+      ]
+    },
+    "negative_signals": {
+      "weight": "disqualifier",
+      "signals": [
+        "consulting_only_career", "cv_speech_robotics_only",
+        "no_production_deployment", "title_chaser_pattern"
+      ]
+    }
   }
 }

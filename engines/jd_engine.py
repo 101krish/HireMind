@@ -43,7 +43,8 @@ Return ONLY valid JSON matching this exact schema:
   }},
   "contradictions_detected": ["list any contradictions found, empty array if none"],
   "inflation_adjusted": true,
-  "inflation_notes": ["list any inflated requirements that seem unrealistic, empty if none"]
+  "inflation_notes": ["list any inflated requirements that seem unrealistic, empty if none"],
+  "disqualifiers": ["list any negative signals or disqualifier patterns extracted from requirements, e.g., consulting_only_career, cv_speech_robotics_only, no_production_deployment, title_chaser_pattern"]
 }}
 
 Return ONLY valid JSON. No markdown, no explanation, no code fences. JSON only.

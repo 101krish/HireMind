@@ -7,10 +7,7 @@ from schemas import (
     RoleObject,
     StructuredCandidate,
     ScoredCandidate,
-    safe_validate,
-    Education,
-    WorkHistory,
-    Project
+    safe_validate
 )
 
 def test_config_loading() -> None:
@@ -33,6 +30,7 @@ def test_capability_graph_loading() -> None:
     assert "capabilities" in graph
     assert "backend_engineering" in graph["capabilities"]
     assert "skills" in graph["capabilities"]["backend_engineering"]
+    assert "jd_specific_weights" in graph
     print("[verify_setup.py] Capability graph verification passed.")
 
 def test_schema_validations() -> None:
@@ -53,41 +51,80 @@ def test_schema_validations() -> None:
     
     # 2. Test CandidateProfile
     candidate_data = {
-        "id": "candidate_001",
-        "name": "John Doe",
-        "current_title": "SDE 1",
-        "total_experience_years": 2.5,
-        "education": [
-            {"degree": "BS CS", "institution": "State Univ", "year": 2021}
-        ],
-        "work_history": [
+        "candidate_id": "CAND_0000001",
+        "profile": {
+            "anonymized_name": "John Doe",
+            "headline": "SDE 1 | Python | SQL",
+            "summary": "Software engineer with 2 years experience.",
+            "location": "Pune",
+            "country": "India",
+            "years_of_experience": 2.0,
+            "current_title": "Software Engineer",
+            "current_company": "OldCorp",
+            "current_company_size": "51-200",
+            "current_industry": "IT Services"
+        },
+        "career_history": [
             {
                 "company": "OldCorp",
                 "title": "Software Engineer",
-                "start_year": 2021,
-                "end_year": 2023,
-                "is_current": False,
-                "description": "Wrote APIs in Python",
-                "company_size": "enterprise",
-                "domain": "retail"
+                "start_date": "2024-01-01",
+                "end_date": None,
+                "duration_months": 24,
+                "is_current": True,
+                "industry": "IT Services",
+                "company_size": "51-200",
+                "description": "Wrote APIs in Python"
             }
         ],
-        "skills": ["Python", "Flask", "AWS"],
-        "projects": [
+        "education": [
             {
-                "name": "API Refactor",
-                "description": "Refactored legacy API",
-                "tech_stack": ["Python", "Flask"],
-                "metrics": ["50% faster latency"]
+                "institution": "State Univ",
+                "degree": "BS CS",
+                "field_of_study": "Computer Science",
+                "start_year": 2020,
+                "end_year": 2024,
+                "grade": "8.5 CGPA",
+                "tier": "tier_3"
             }
         ],
-        "certifications": ["AWS Practitioner"],
-        "platforms": {"github": "github.com/johndoe"}
+        "skills": [
+            {"name": "Python", "proficiency": "advanced", "endorsements": 5, "duration_months": 24}
+        ],
+        "certifications": [],
+        "languages": [
+            {"language": "English", "proficiency": "professional"}
+        ],
+        "redrob_signals": {
+            "profile_completeness_score": 90.0,
+            "signup_date": "2024-01-01",
+            "last_active_date": "2026-06-01",
+            "open_to_work_flag": True,
+            "profile_views_received_30d": 10,
+            "applications_submitted_30d": 5,
+            "recruiter_response_rate": 0.8,
+            "avg_response_time_hours": 12.0,
+            "skill_assessment_scores": {"Python": 80.0},
+            "connection_count": 50,
+            "endorsements_received": 5,
+            "notice_period_days": 30,
+            "expected_salary_range_inr_lpa": {"min": 8.0, "max": 12.0},
+            "preferred_work_mode": "hybrid",
+            "willing_to_relocate": True,
+            "github_activity_score": 40.0,
+            "search_appearance_30d": 100,
+            "saved_by_recruiters_30d": 3,
+            "interview_completion_rate": 0.9,
+            "offer_acceptance_rate": 0.8,
+            "verified_email": True,
+            "verified_phone": True,
+            "linkedin_connected": True
+        }
     }
     validated_candidate = safe_validate(candidate_data, CandidateProfile)
     assert validated_candidate is not None
-    assert validated_candidate["name"] == "John Doe"
-    assert len(validated_candidate["work_history"]) == 1
+    assert validated_candidate["profile"]["anonymized_name"] == "John Doe"
+    assert len(validated_candidate["career_history"]) == 1
     
     print("[verify_setup.py] Schema verification passed.")
 
@@ -100,4 +137,6 @@ if __name__ == "__main__":
         print("=== PHASE 0 VERIFICATION COMPLETED: ALL TESTS PASSED ===")
     except Exception as e:
         print(f"[ERROR] Verification failed: {e}")
+        import traceback
+        traceback.print_exc()
         exit(1)

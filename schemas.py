@@ -16,48 +16,106 @@ def safe_validate(data: dict, model_class: Type[T]) -> Optional[dict]:
 
 
 # ==========================================
-# 1. INPUT SCHEMAS
+# 1. CHALLENGE INPUT SCHEMAS (Section 3.2 / candidate_schema.json)
 # ==========================================
 
-class Education(BaseModel):
-    """Represents a candidate's educational qualification."""
-    degree: str
-    institution: str
-    year: Optional[int] = None
+class ProfileInfo(BaseModel):
+    """General candidate profile metadata."""
+    anonymized_name: str
+    headline: str
+    summary: str
+    location: str
+    country: str
+    years_of_experience: float
+    current_title: str
+    current_company: str
+    current_company_size: str
+    current_industry: str
 
-class WorkHistory(BaseModel):
-    """Represents a single position/stint in the candidate's career history."""
+class CareerHistoryStint(BaseModel):
+    """A single job stint in the candidate's career history."""
     company: str
     title: str
-    start_year: int
-    end_year: Optional[int] = None
-    is_current: Optional[bool] = False
-    description: Optional[str] = ""
-    company_size: Optional[str] = "unknown"
-    domain: Optional[str] = ""
+    start_date: str
+    end_date: Optional[str] = None
+    duration_months: int
+    is_current: bool
+    industry: str
+    company_size: str
+    description: str
 
-class Project(BaseModel):
-    """Represents an engineering project completed by the candidate."""
+class EducationChallenge(BaseModel):
+    """Educational details matching the challenge schema."""
+    institution: str
+    degree: str
+    field_of_study: str
+    start_year: int
+    end_year: int
+    grade: Optional[str] = None
+    tier: str  # tier_1, tier_2, tier_3, tier_4, unknown
+
+class SkillChallenge(BaseModel):
+    """Raw skill endorsements and duration metadata."""
     name: str
-    description: Optional[str] = ""
-    tech_stack: List[str] = Field(default_factory=list)
-    metrics: List[str] = Field(default_factory=list)
+    proficiency: str  # beginner, intermediate, advanced, expert
+    endorsements: int
+    duration_months: Optional[int] = 0
+
+class CertificationChallenge(BaseModel):
+    """Candidate certifications."""
+    name: str
+    issuer: str
+    year: int
+
+class LanguageChallenge(BaseModel):
+    """Candidate languages spoken."""
+    language: str
+    proficiency: str  # basic, conversational, professional, native
+
+class SalaryRange(BaseModel):
+    """Min/Max expected salary range."""
+    min: float
+    max: float
+
+class RedrobSignals(BaseModel):
+    """Platform activity, engagement, and availability signals from Redrob."""
+    profile_completeness_score: float
+    signup_date: str
+    last_active_date: str
+    open_to_work_flag: bool
+    profile_views_received_30d: int
+    applications_submitted_30d: int
+    recruiter_response_rate: float
+    avg_response_time_hours: float
+    skill_assessment_scores: Dict[str, float] = Field(default_factory=dict)
+    connection_count: int
+    endorsements_received: int
+    notice_period_days: int
+    expected_salary_range_inr_lpa: SalaryRange
+    preferred_work_mode: str  # remote, hybrid, onsite, flexible
+    willing_to_relocate: bool
+    github_activity_score: float
+    search_appearance_30d: int
+    saved_by_recruiters_30d: int
+    interview_completion_rate: float
+    offer_acceptance_rate: float
+    verified_email: bool
+    verified_phone: bool
+    linkedin_connected: bool
 
 class CandidateProfile(BaseModel):
-    """The raw candidate profile as input to the Profile Engine."""
-    id: str
-    name: str
-    current_title: Optional[str] = ""
-    total_experience_years: Optional[float] = 0.0
-    education: List[Education] = Field(default_factory=list)
-    work_history: List[WorkHistory] = Field(default_factory=list)
-    skills: List[str] = Field(default_factory=list)
-    projects: List[Project] = Field(default_factory=list)
-    certifications: List[str] = Field(default_factory=list)
-    platforms: Optional[Dict[str, str]] = Field(default_factory=dict)
+    """The full challenge candidate profile schema from candidate_schema.json."""
+    candidate_id: str = Field(..., pattern=r"^CAND_[0-9]{7}$")
+    profile: ProfileInfo
+    career_history: List[CareerHistoryStint] = Field(default_factory=list)
+    education: List[EducationChallenge] = Field(default_factory=list)
+    skills: List[SkillChallenge] = Field(default_factory=list)
+    certifications: List[CertificationChallenge] = Field(default_factory=list)
+    languages: List[LanguageChallenge] = Field(default_factory=list)
+    redrob_signals: RedrobSignals
 
 class JobDescriptionInput(BaseModel):
-    """The raw job description as input to the JD Engine."""
+    """The raw job description input model."""
     id: str
     raw_text: str
     title: str
@@ -92,6 +150,7 @@ class RoleObject(BaseModel):
     contradictions_detected: List[str] = Field(default_factory=list)
     inflation_adjusted: bool = False
     inflation_notes: List[str] = Field(default_factory=list)
+    disqualifiers: List[str] = Field(default_factory=list)  # Disqualifier keywords matching reweighting rules
 
 class TimelineEvent(BaseModel):
     """An event reconstructed in the candidate's career timeline."""
@@ -188,18 +247,24 @@ class DevilsAdvocate(BaseModel):
     mitigation: str = ""
 
 class ScoredCandidate(BaseModel):
-    """The final fully-evaluated candidate profile containing scores and agent consensus."""
+    """The final fully-evaluated candidate profile containing scores, multiplier, and honeypot flags."""
     candidate_id: str
     name: str
     rank: int
     tier: str
+    is_honeypot: bool = False
+    honeypot_flags: List[str] = Field(default_factory=list)
     scores: Dict[str, ScoreWeight] = Field(default_factory=dict)
+    behavioral_signal_multiplier: float = 1.0
+    availability_score: float = 0.0
+    engagement_score: float = 0.0
     weighted_score: float
     twin_match_score: float
     current_fit: float
     future_fit: float
     confidence_band: ConfidenceBand
     debate_scores: Optional[DebateScores] = None
+    final_score_before_multiplier: float
     final_score: float
     reasoning: List[str] = Field(default_factory=list)
     red_flags: List[str] = Field(default_factory=list)
@@ -213,13 +278,10 @@ class ScoredCandidate(BaseModel):
 if __name__ == "__main__":
     print("[Schemas] Self-Test Running...")
     
-    # Verify validation helper with mock data
-    mock_edu = {"degree": "CS", "institution": "IIT", "year": 2020}
-    validated_edu = safe_validate(mock_edu, Education)
-    assert validated_edu is not None
-    assert validated_edu["degree"] == "CS"
-    
-    mock_bad_edu = {"degree": 12345}  # missing institution
-    assert safe_validate(mock_bad_edu, Education) is None
+    # Test safe validation with basic challenge structures
+    mock_salary = {"min": 10.0, "max": 20.0}
+    validated_sal = safe_validate(mock_salary, SalaryRange)
+    assert validated_sal is not None
+    assert validated_sal["min"] == 10.0
     
     print("[Schemas] Self-Test Completed Successfully!")
