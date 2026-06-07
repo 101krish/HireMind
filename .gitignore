@@ -36,3 +36,10 @@ venv.bak/
 
 # pytest cache
 .pytest_cache/
+
+# Runtime Uploads & Generated Results
+data/uploads/
+results/*_status.json
+results/*_precomputed_features.json
+results/*_submission.csv
+
