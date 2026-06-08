@@ -1,24 +1,27 @@
 import numpy as np
-from sentence_transformers import SentenceTransformer
 from config import settings
 
 # Global cached model instance to avoid reloading
 _model = None
 
-def get_embedding_model() -> SentenceTransformer:
+def get_embedding_model():
     """
     Lazy loads and caches the SentenceTransformer model defined in config settings.
+    If sentence_transformers is not installed or fails, falls back to lightweight mode.
     """
     global _model
     if _model is None:
         model_name = settings.embedding_model
         print(f"[Embedding Engine] Loading local embedding model: {model_name}")
         try:
+            from sentence_transformers import SentenceTransformer
             _model = SentenceTransformer(model_name)
         except Exception as e:
             print(f"[ERROR] Failed to load SentenceTransformer model {model_name}: {e}")
-            raise e
+            print("[Embedding Engine] Falling back to lightweight keyword-matching mode.")
+            _model = "lightweight_fallback"
     return _model
+
 
 def cosine_similarity(v1: np.ndarray, v2: np.ndarray) -> float:
     """
@@ -118,11 +121,31 @@ def get_candidate_text(candidate: dict) -> str:
     ]
     return ". ".join([p for p in text_parts if p.strip()])
 
+def get_keyword_overlap_score(role_text: str, candidate_text: str) -> float:
+    """
+    Computes a simple, zero-dependency token-overlap score.
+    Used as a lightweight fallback when sentence-transformers is not available.
+    """
+    role_words = set(role_text.lower().replace('.', ' ').replace(',', ' ').split())
+    cand_words = set(candidate_text.lower().replace('.', ' ').replace(',', ' ').split())
+    
+    # Filter common English stopwords
+    stopwords = {"and", "the", "a", "or", "in", "of", "to", "for", "with", "is", "on", "at", "by", "an", "as"}
+    role_words = role_words - stopwords
+    cand_words = cand_words - stopwords
+    
+    if not role_words:
+        return 0.0
+        
+    intersection = role_words.intersection(cand_words)
+    return float(len(intersection) / len(role_words))
+
 def fast_filter(role: dict, candidates: list, top_n: int = 30) -> list:
     """
     Performs Phase 1 Fast Filtering.
     Embeds the role and candidates, calculates cosine similarities, 
     and returns the top_n candidates sorted by similarity score.
+    Falls back to a lightweight keyword overlap model if sentence-transformers is unavailable.
     """
     if not candidates:
         print("[Embedding Engine] Empty candidate list provided to fast_filter.")
@@ -134,10 +157,24 @@ def fast_filter(role: dict, candidates: list, top_n: int = 30) -> list:
         model = get_embedding_model()
     except Exception as e:
         print(f"[ERROR] Cannot perform fast filter: embedding model loading failed: {e}")
-        return candidates[:top_n]  # Return slice as fallback
+        model = "lightweight_fallback"
+        
+    role_text = get_role_text(role)
+    
+    if model == "lightweight_fallback":
+        print("[Embedding Engine] Running fast filter in lightweight keyword-overlap fallback mode.")
+        scored_candidates = []
+        for cand in candidates:
+            cand_text = get_candidate_text(cand)
+            score = get_keyword_overlap_score(role_text, cand_text)
+            cand_copy = dict(cand)
+            cand_copy["fast_filter_score"] = float(score)
+            scored_candidates.append(cand_copy)
+        scored_candidates.sort(key=lambda x: x.get("fast_filter_score", 0.0), reverse=True)
+        print(f"[Embedding Engine] Fast filtering (lightweight) complete. Top score: {scored_candidates[0]['fast_filter_score'] if scored_candidates else 0.0:.4f}")
+        return scored_candidates[:top_n]
         
     # Generate role text and role embedding
-    role_text = get_role_text(role)
     try:
         role_embedding = model.encode(role_text, convert_to_numpy=True)
     except Exception as e:
@@ -164,6 +201,7 @@ def fast_filter(role: dict, candidates: list, top_n: int = 30) -> list:
     
     print(f"[Embedding Engine] Fast filtering complete. Top score: {scored_candidates[0]['fast_filter_score'] if scored_candidates else 0.0:.4f}")
     return scored_candidates[:top_n]
+
 
 # Self-Test block
 if __name__ == "__main__":
