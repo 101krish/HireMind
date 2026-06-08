@@ -2,6 +2,8 @@
 
 > A next-generation, multi-agent AI recruiting and scoring pipeline. PRISM ingests candidate profiles and job descriptions, runs deep semantic filtering, evaluates candidates across multiple technical and behavioral dimensions, runs multi-agent panel debates, and serves a high-fidelity interactive dashboard for recruiters.
 
+🔗 **Live Production URL**: [https://hiremind-u4do.onrender.com/](https://hiremind-u4do.onrender.com/)
+
 ---
 
 ## 🚀 Key Features
